@@ -25,7 +25,7 @@ separator_len = len(encoding.encode(SEPARATOR))
 openai.api_key = os.getenv('OPENAI_API_KEY')
 
 
-def get_embedding(text, model = EMBEDDING_MODEL):
+def get_embedding(text, model=EMBEDDING_MODEL):
     time.sleep(0.25)  # avoid rate limit
     result = openai.Embedding.create(
             model=model,
@@ -103,8 +103,7 @@ def order_document_sections_by_query_similarity(
     return document_similarities
 
 
-def construct_prompt(question,
-        context_embeddings, df):
+def construct_prompt(question, context_embeddings, df):
     """
     Fetch relevant
     """
@@ -138,7 +137,7 @@ def answer_query_with_context(
         query,
         df,
         document_embeddings,
-        show_prompt = False):
+        show_prompt=False):
     prompt = construct_prompt(
             query,
             document_embeddings,

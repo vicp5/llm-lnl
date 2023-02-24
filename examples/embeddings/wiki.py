@@ -1,7 +1,6 @@
 import pandas as pd
 import wikipedia
 import re
-from typing import Set
 from transformers import GPT2TokenizerFast
 from nltk.tokenize import sent_tokenize
 
@@ -15,9 +14,8 @@ def count_tokens(text):
     return len(tokenizer.encode(text))
 
 
-def reduce_long(
-        long_text, long_text_tokens = False, max_len = 590
-):
+def reduce_long(long_text,
+                long_text_tokens=False, max_len=590):
     """
     Reduce a long text to a maximum of `max_len` tokens
     by potentially cutting at a sentence end
@@ -111,7 +109,7 @@ discard_categories = ['See also', 'References', 'External links',
 def clean_wiki_contents(
         headings,
         contents,
-        discard_categories = discard_categories,
+        discard_categories=discard_categories,
 ):
     # discard the discard categories, accounting for a tree structure
     max_level = 100
@@ -142,7 +140,7 @@ def clean_wiki_contents(
 
 def extract_wiki_headings_contents(
         wiki_text,
-        discard_categories = discard_categories,
+        discard_categories=discard_categories,
 ):
     # find all headings and the coresponding contents
     headings = re.findall("==+ .* ==+", wiki_text)
@@ -157,8 +155,8 @@ def extract_wiki_headings_contents(
 def extract_wiki_sections(
         wiki_text,
         title,
-        max_len = 1500,
-        discard_categories = discard_categories,
+        max_len=1500,
+        discard_categories=discard_categories,
 ):
     """
     Extract the sections of a Wikipedia page, discarding the
