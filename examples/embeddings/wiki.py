@@ -10,14 +10,14 @@ tokenizer = GPT2TokenizerFast.from_pretrained("gpt2")
 MAX_DEPTH_LEVEL = 3
 
 
-def count_tokens(text: str) -> int:
+def count_tokens(text):
     """count the number of tokens in a string"""
     return len(tokenizer.encode(text))
 
 
 def reduce_long(
-        long_text: str, long_text_tokens: bool = False, max_len: int = 590
-) -> str:
+        long_text, long_text_tokens = False, max_len = 590
+):
     """
     Reduce a long text to a maximum of `max_len` tokens
     by potentially cutting at a sentence end
@@ -109,10 +109,10 @@ discard_categories = ['See also', 'References', 'External links',
 
 
 def clean_wiki_contents(
-        headings: str,
-        contents: str,
-        discard_categories: Set[str] = discard_categories,
-) -> tuple[[str], [str]]:
+        headings,
+        contents,
+        discard_categories = discard_categories,
+):
     # discard the discard categories, accounting for a tree structure
     max_level = 100
     keep_group_level = max_level
@@ -141,9 +141,9 @@ def clean_wiki_contents(
 
 
 def extract_wiki_headings_contents(
-        wiki_text: str,
-        discard_categories: Set[str] = discard_categories,
-) -> tuple[str, str]:
+        wiki_text,
+        discard_categories = discard_categories,
+):
     # find all headings and the coresponding contents
     headings = re.findall("==+ .* ==+", wiki_text)
     for heading in headings:
@@ -155,11 +155,11 @@ def extract_wiki_headings_contents(
 
 
 def extract_wiki_sections(
-        wiki_text: str,
-        title: str,
-        max_len: int = 1500,
-        discard_categories: Set[str] = discard_categories,
-) -> str:
+        wiki_text,
+        title,
+        max_len = 1500,
+        discard_categories = discard_categories,
+):
     """
     Extract the sections of a Wikipedia page, discarding the
     references and other low information sections
