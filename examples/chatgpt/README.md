@@ -23,6 +23,7 @@ You can always reset the state of the chat:
 Or change the initial prompt:
 
 `chat-set "You are a bot that answers questions"`
+
 `chat-reset`
 
 ### Simple prompts/questions (no chat bot)
@@ -36,6 +37,7 @@ You can also pipe a large prompt from a file:
 ### Chat bot
 
 `chat what is the inverse color of green?`
+
 `chat and red?`
 
 You can also pipe a large prompt from a file, beware of max tokens limit:

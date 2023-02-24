@@ -20,7 +20,7 @@ CONVERSATION_SEPARATOR="<<< separator >>>" # watch for symbols, this
 					   # gets compiled to regex
 
 # if name is changed a reset is required
-CHAT_NAME=ChatGPT
+CHAT_NAME=Alice
 
 # initial prompt
 read -r -d '' INITIAL_PROMPT << EOM
