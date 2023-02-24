@@ -14,8 +14,10 @@ CURRENT_CONVERSATION=$(pwd)/conversation.txt
 
 # specifies which message/prompt to remove from the conversation
 # context when the max tokens limit is reached
-CONVERSATION_POP_SECTION=oldest # valid values: oldest | middle
-CONVERSATION_SEPARATOR="++++|separator|++++"
+CONVERSATION_POP_SECTION=oldest # valid values:
+				# oldest | middle
+CONVERSATION_SEPARATOR="<<< separator >>>" # watch for symbols, this
+					   # gets compiled to regex
 
 # if name is changed a reset is required
 CHAT_NAME=ChatGPT
@@ -84,8 +86,7 @@ function chat-addsep {
 # save user input prompt to file
 function chat-save-prompt {
         local fileout=$2
-        echo "User: $1" >> $fileout
-        echo -e '\n' >> $fileout
+        echo -e "User:\n$1\n" >> $fileout
         echo "$CHAT_NAME: " >> $fileout
 }
 
@@ -103,7 +104,8 @@ function chat-pop-conversation {
         do
                 python $(pwd)/pop-conversation.py \
 			$CURRENT_CONVERSATION \
-			$CONVERSATION_SEPARATOR
+			$CONVERSATION_SEPARATOR \
+			$CONVERSATION_POP_SECTION
                 input_prompt=$(cat $CURRENT_CONVERSATION)
                 input_prompt_size=${#input_prompt}
         done
@@ -164,7 +166,7 @@ function completion {
 
 # chat bot q&a
 # $> chat what is the inverse color of red?
-# $> chat what about green?
+# $> chat and green?
 function chat {
 	# parse input prompt
 	local prompt

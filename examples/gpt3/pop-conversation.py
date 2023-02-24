@@ -42,5 +42,4 @@ if __name__ == '__main__':
     elif len(sys.argv) == 3:
         if sys.argv == 'middle':
             middle = True
-
     pop_conversation(sys.argv[1], sys.argv[2], middle)
