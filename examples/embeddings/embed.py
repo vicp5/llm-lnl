@@ -25,7 +25,7 @@ separator_len = len(encoding.encode(SEPARATOR))
 openai.api_key = os.getenv('OPENAI_API_KEY')
 
 
-def get_embedding(text: str, model: str = EMBEDDING_MODEL) -> list[float]:
+def get_embedding(text, model = EMBEDDING_MODEL):
     time.sleep(0.25)  # avoid rate limit
     result = openai.Embedding.create(
             model=model,
@@ -34,8 +34,7 @@ def get_embedding(text: str, model: str = EMBEDDING_MODEL) -> list[float]:
     return result["data"][0]["embedding"]
 
 
-def compute_doc_embeddings(df: pd.DataFrame) \
-        -> dict[tuple[str, str], list[float]]:
+def compute_doc_embeddings(df):
     """
     Create an embedding for each row in the dataframe using
     the OpenAI Embeddings API. Return a dictionary that maps
@@ -47,9 +46,8 @@ def compute_doc_embeddings(df: pd.DataFrame) \
     }
 
 
-def save_embeddings(fname: str,
-                    document_embeddings: dict[tuple[str, str], list[float]]
-                    ) -> None:
+def save_embeddings(fname,
+                    document_embeddings):
     """
     Write the document embeddings and their keys to a CSV.
     fname is the path to a CSV with exactly these named columns:
@@ -63,7 +61,7 @@ def save_embeddings(fname: str,
     df.to_csv(fname)
 
 
-def load_embeddings(fname: str) -> dict[tuple[str, str], list[float]]:
+def load_embeddings(fname):
     """
     Read the document embeddings and their keys from a CSV.
     fname is the path to a CSV with exactly these named columns:
@@ -79,7 +77,7 @@ def load_embeddings(fname: str) -> dict[tuple[str, str], list[float]]:
     }
 
 
-def vector_similarity(x: list[float], y: list[float]) -> float:
+def vector_similarity(x, y):
     """
     Returns the similarity between two vectors.
     Because OpenAI Embeddings are normalized to length 1, the cosine
@@ -89,8 +87,7 @@ def vector_similarity(x: list[float], y: list[float]) -> float:
 
 
 def order_document_sections_by_query_similarity(
-        query: str, contexts: dict[(str, str), np.array]) \
-                -> list[(float, (str, str))]:
+        query, contexts):
     """
     Find the query embedding for the supplied query, and compare
     it against all of the pre-calculated document embeddings to find
@@ -106,8 +103,8 @@ def order_document_sections_by_query_similarity(
     return document_similarities
 
 
-def construct_prompt(question: str,
-                     context_embeddings: dict, df: pd.DataFrame) -> str:
+def construct_prompt(question,
+        context_embeddings, df):
     """
     Fetch relevant
     """
@@ -138,11 +135,10 @@ def construct_prompt(question: str,
 
 
 def answer_query_with_context(
-        query: str,
-        df: pd.DataFrame,
-        document_embeddings: dict[(str, str), np.array],
-        show_prompt: bool = False
-        ) -> str:
+        query,
+        df,
+        document_embeddings,
+        show_prompt = False):
     prompt = construct_prompt(
             query,
             document_embeddings,
