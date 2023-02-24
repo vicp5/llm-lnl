@@ -54,7 +54,7 @@ EOM
 
 CHAT_PROMPT=$INITIAL_PROMPT
 
-# if prompt is manually set a reset is required
+# if initial prompt is manually set a reset is required
 function chat-set {
         export CHAT_PROMPT=$1
 }
@@ -155,11 +155,13 @@ function completion {
 	else
 		local prompt="$(parse-pipe-input)"
 	fi
+
 	local max_tokens=$(expr $OPENAI_MAX_TOKENS - ${#prompt})
 	if [ $max_tokens -lt 0 ]; then
 		echo 'error: max tokens limit reached'
 		return
 	fi
+
 	openai-completion "$prompt" $max_tokens --stream
 	echo -e '\n'
 }
@@ -176,9 +178,11 @@ function chat {
 		local prompt="$(parse-pipe-input)"
 	fi
 	chat-update-prompt "$prompt"
+
 	# clean conversation history if limit reached
 	local input_prompt=$(chat-pop-conversation)
 	local max_tokens=$(expr $OPENAI_MAX_TOKENS - ${#input_prompt})
+
 	# get completion response
 	local response=$(openai-completion "$input_prompt" $max_tokens)
 	local cleaned_response=$( \
@@ -187,7 +191,7 @@ function chat {
 		"$response")
 	echo ''
 	echo -e "$cleaned_response"
+
 	# save response to conversation history
 	chat-update-conversation "$cleaned_response"
-
 }
