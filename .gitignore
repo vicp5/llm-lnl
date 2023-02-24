@@ -2,3 +2,5 @@ backup
 conversation.txt
 env.sh
 *.swp
+data
+__pycache__

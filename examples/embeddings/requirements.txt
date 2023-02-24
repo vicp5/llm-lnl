@@ -1,0 +1,6 @@
+pandas
+wikipedia
+transformers
+nltk
+openai
+tiktoken
